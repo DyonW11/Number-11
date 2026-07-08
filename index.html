@@ -357,6 +357,31 @@
     html { scroll-behavior: auto; }
     * { transition: none !important; }
   }
+
+  /* player name links to Instagram */
+  .legend h3 a,
+  .me-body h3 a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .legend h3 a:hover,
+  .legend h3 a:focus,
+  .me-body h3 a:hover,
+  .me-body h3 a:focus {
+    color: var(--paint);
+    border-bottom-color: var(--paint);
+    outline: none;
+  }
+  .ig-tag {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--net);
+    margin-top: 0.2rem;
+    font-weight: 400;
+  }
 </style>
 </head>
 <body>
@@ -379,25 +404,25 @@
     <div class="legends">
       <div class="legend">
         <div class="num">11</div>
-        <h3>Isiah Thomas</h3>
+        <h3><a href="https://www.instagram.com/isiahthomas/" target="_blank" rel="noopener">Isiah Thomas</a></h3>
         <div class="role">Point Guard · Pistons</div>
         <p>Six feet and one inch of pure floor general. Proof that eleven belongs to the player who runs the show, not the one who towers over it.</p>
       </div>
       <div class="legend">
         <div class="num">11</div>
-        <h3>Klay Thompson</h3>
+        <h3><a href="https://www.instagram.com/klaythompson/" target="_blank" rel="noopener">Klay Thompson</a></h3>
         <div class="role">Guard · Splash Brother</div>
         <p>Catch, rise, release. Eleven for the sharpshooter who says nothing and drops thirty-seven in a single quarter.</p>
       </div>
       <div class="legend">
         <div class="num">11</div>
-        <h3>Yao Ming</h3>
-        <div class="role">Center · Rockets</div>
-        <p>A wall in the paint who carried a nation's expectations. Eleven on a seven-foot-six frame — the number stretches to fit whoever wears it.</p>
+        <h3><a href="https://www.instagram.com/jalenbrunson/" target="_blank" rel="noopener">Jalen Brunson</a></h3>
+        <div class="role">Point Guard · Knicks</div>
+        <p>Undersized, unbothered, unstoppable in the clutch. Eleven for the captain who dragged New York to a title and never blinked in the fourth.</p>
       </div>
       <div class="legend">
         <div class="num">11</div>
-        <h3>Kyrie Irving</h3>
+        <h3><a href="https://www.instagram.com/kyrieirving/" target="_blank" rel="noopener">Kyrie Irving</a></h3>
         <div class="role">Guard · Handles</div>
         <p>The tightest handle in the league. Eleven for the one who makes defenders look like they've never seen a basketball.</p>
       </div>
@@ -433,7 +458,7 @@
     <div class="me-card">
       <div class="me-jersey" aria-hidden="true">11</div>
       <div class="me-body">
-        <h3>Dyon Williams</h3>
+        <h3><a href="https://www.instagram.com/dyonw11/" target="_blank" rel="noopener">Dyon Williams</a></h3>
         <div class="team">Forward · University Prep</div>
         <div class="me-tags">
           <span class="me-tag">Slasher</span>
