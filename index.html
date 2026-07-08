@@ -239,6 +239,79 @@
     .me-tags { justify-content: center; }
   }
 
+  /* before/after slider — me on the court */
+  .ba-slider {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    user-select: none;
+    border: 1px solid var(--line);
+    cursor: ew-resize;
+    background: #1a1815;
+  }
+  .ba-slider img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+  .ba-slider .ba-after { clip-path: inset(0 0 0 50%); }
+  .ba-label {
+    position: absolute;
+    bottom: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--chalk);
+    background: rgba(15,14,13,0.78);
+    padding: 0.4rem 0.85rem;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .ba-label--before { left: 1rem; }
+  .ba-label--after  { right: 1rem; }
+  .ba-handle {
+    position: absolute;
+    top: 0; left: 50%;
+    width: 2px; height: 100%;
+    background: var(--paint);
+    transform: translateX(-50%);
+    z-index: 4;
+    pointer-events: none;
+  }
+  .ba-handle::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 44px; height: 44px;
+    transform: translate(-50%, -50%);
+    background: var(--court);
+    border: 2px solid var(--paint);
+    border-radius: 50%;
+  }
+  .ba-handle::after {
+    content: "‹ ›";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--paint);
+    z-index: 1;
+  }
+  .slider-note {
+    font-size: 0.78rem;
+    color: var(--net);
+    margin-top: 1rem;
+    max-width: 60ch;
+  }
+
   /* quote */
   .quote {
     text-align: center;
@@ -372,6 +445,23 @@
   </section>
 
   <section>
+    <div class="section-head">
+      <span class="idx">04</span>
+      <h2>On the court</h2>
+    </div>
+    <div class="ba-slider"
+         data-before-label="Drive"
+         data-after-label="Shoot">
+      <img class="ba-before" src="photo-1.jpg" alt="Dyon driving to the basket">
+      <img class="ba-after"  src="photo-2.jpg" alt="Dyon shooting">
+      <span class="ba-label ba-label--before">Drive</span>
+      <span class="ba-label ba-label--after">Shoot</span>
+      <div class="ba-handle"></div>
+    </div>
+    <p class="slider-note">Drag the handle to switch between the two shots. Replace <code>photo-1.jpg</code> and <code>photo-2.jpg</code> with your own images (same dimensions).</p>
+  </section>
+
+  <section>
     <div class="quote">
       <blockquote>Pick a number for who you're going to be, <span>not who you are.</span> Eleven's a promise you make to the game.</blockquote>
       <cite>— On choosing your number</cite>
@@ -383,5 +473,51 @@
     <span>A tribute to the number on the court.</span>
   </footer>
 
+<script>
+  document.querySelectorAll('.ba-slider').forEach(function (slider) {
+    var after  = slider.querySelector('.ba-after');
+    var handle = slider.querySelector('.ba-handle');
+    var dragging = false;
+
+    var bLabel = slider.getAttribute('data-before-label');
+    var aLabel = slider.getAttribute('data-after-label');
+    if (bLabel) slider.querySelector('.ba-label--before').textContent = bLabel;
+    if (aLabel) slider.querySelector('.ba-label--after').textContent  = aLabel;
+
+    function setPosition(clientX) {
+      var rect = slider.getBoundingClientRect();
+      var pct = ((clientX - rect.left) / rect.width) * 100;
+      pct = Math.max(0, Math.min(100, pct));
+      after.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
+      handle.style.left = pct + '%';
+    }
+    function start(e) { dragging = true; move(e); }
+    function move(e) {
+      if (!dragging) return;
+      var x = e.touches ? e.touches[0].clientX : e.clientX;
+      setPosition(x);
+      if (e.cancelable) e.preventDefault();
+    }
+    function end() { dragging = false; }
+
+    slider.addEventListener('mousedown', start);
+    slider.addEventListener('touchstart', start, { passive: true });
+    window.addEventListener('mousemove', move);
+    window.addEventListener('touchmove', move, { passive: false });
+    window.addEventListener('mouseup', end);
+    window.addEventListener('touchend', end);
+
+    slider.setAttribute('tabindex', '0');
+    var kbPos = 50;
+    slider.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft')  kbPos = Math.max(0, kbPos - 4);
+      else if (e.key === 'ArrowRight') kbPos = Math.min(100, kbPos + 4);
+      else return;
+      after.style.clipPath = 'inset(0 0 0 ' + kbPos + '%)';
+      handle.style.left = kbPos + '%';
+      e.preventDefault();
+    });
+  });
+</script>
 </body>
 </html>
